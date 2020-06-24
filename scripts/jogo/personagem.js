@@ -1,27 +1,43 @@
-class Personagem {
-  
-  constructor(imagem) {
-    this.imagem = imagem;
+class Personagem extends Animacao {
+  constructor(matriz, imagem, x, largura, altura, larguraSprite, alturaSprite) {
+    super(matriz, imagem, x, largura, altura, larguraSprite, alturaSprite);
+
+    this.yInicial = height - altura;
+
+    this.velocidadeDoPulo = 0;
+    this.gravidade = 3;
+    this.pulos = 0;
     
-    this.spriteX = 0;
-    this.spriteY = 0;
+    this.somPulo = loadSound("sons/somPulo.mp3");
   }
 
-  exibe() {
-    image(this.imagem, 0, height - 135, 110, 135, this.spriteX, this.spriteY, 220, 270);
-    this.anima();
-  }
-
-  anima() {
-    this.spriteX = this.spriteX + 220;
-    
-    if (this.spriteX == 220 * 4) {
-      this.spriteX = 0;
-      this.spriteY = this.spriteY + 270;
-      
-      if (this.spriteY == 270 * 4 ) {
-        this.spriteY = 0;
-      }
+  pula() {
+    if (this.pulos < 2) {
+      this.velocidadeDoPulo = -30;
+      this.pulos++;
+      this.somPulo.play();
     }
   }
+
+  aplicaGravidade() {
+    this.y = this.y + this.velocidadeDoPulo;
+
+    this.velocidadeDoPulo = this.velocidadeDoPulo + this.gravidade;
+
+    if (this.y > this.yInicial) {
+      this.y = this.yInicial;
+      this.pulos = 0;
+    }
+  }
+
+  estaColidindo(inimigo) {
+    const precisao = .7;
+    return collideRectRect(this.x, this.y,
+                          this.largura * precisao,
+                          this.altura * precisao,
+                          inimigo.x, inimigo.y,
+                          inimigo.largura * precisao,
+                          inimigo.altura * precisao);
+  }
+
 }
