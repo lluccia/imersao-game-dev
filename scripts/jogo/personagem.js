@@ -11,6 +11,8 @@ class Personagem extends Animacao {
     this.alturaDoPulo = 40;
 
     this.somPulo = loadSound("sons/somPulo.mp3");
+
+    this.invencivel = false;
   }
 
   pula() {
@@ -32,7 +34,17 @@ class Personagem extends Animacao {
     }
   }
 
+  tornarInvencivel() {
+    this.invencivel = true;
+    setTimeout(() => {
+      this.invencivel = false
+    }, 1000);
+  }
+
   estaColidindo(inimigo) {
+    if (this.invencivel)
+      return false;
+    
     const precisao = .7;
 
     return collideRectRect(this.x, this.y,

@@ -1,5 +1,6 @@
 let imagemTelaInicial;
 let imagemGameOver;
+let imagemVida;
 
 let fonteTelaInicial;
 
@@ -14,3 +15,5 @@ let botaoGerenciador;
 
 let jogo;
 let telaInicial;
+
+let fita;
